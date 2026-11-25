@@ -207,4 +207,9 @@ footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px
 .theme-toggle .moon { display: none; }
 :root[data-theme="dark"] .theme-toggle .sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .moon { display: block; }
-.teaser-note { margin-top: 8px; text-align: center; }
+.teaser-note { margin-top: 4px; text-align: center; }
+.caption-line { min-height: 2.9em; margin-top: 10px; text-align: center; font-size: 18px; line-height: 1.45; color: var(--ink); text-wrap: balance; }
+.caption-line.off { visibility: hidden; }
+.cc-btn { font: inherit; font-size: 13px; color: var(--ink2); background: transparent; border: 1px solid var(--rule); border-radius: 5px; padding: 1px 8px; cursor: pointer; }
+.cc-btn:hover { background: var(--hover); color: var(--ink); }
+@media (max-width: 600px) { .caption-line { font-size: 15px; } }

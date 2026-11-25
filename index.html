@@ -65,8 +65,11 @@
 <main class="wrap">
 
   <div class="teaser">
-    <video src="assets/videos/method.mp4" poster="assets/videos/method.jpg" controls autoplay muted loop playsinline preload="metadata"></video>
-    <p class="vid-note teaser-note">Narrated overview &middot; unmute for the voice-over.</p>
+    <video src="assets/videos/method.mp4" poster="assets/videos/method.jpg" controls autoplay muted loop playsinline preload="metadata">
+      <track kind="captions" src="assets/videos/method.vtt" srclang="en" label="English" default>
+    </video>
+    <div class="caption-line" id="teaser-cap" aria-live="off"></div>
+    <p class="vid-note teaser-note">Narrated overview &middot; unmute for the voice-over &middot; <button type="button" class="cc-btn" id="cc-btn" aria-pressed="true">CC on</button></p>
   </div>
 
   <section class="abstract prose" id="abstract">

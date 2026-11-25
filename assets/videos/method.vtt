@@ -1,0 +1,124 @@
+WEBVTT
+
+00:00:00.700 --> 00:00:02.240
+Policies trained in simulation
+
+00:00:02.260 --> 00:00:04.650
+often break when the physics changes.
+
+00:00:05.080 --> 00:00:07.780
+In this work, we ask what actually matters when
+
+00:00:07.800 --> 00:00:10.690
+we adapt a pretrained world model to a new domain,
+
+00:00:10.820 --> 00:00:12.970
+and we turn the answers into DomainADEPT.
+
+00:00:15.900 --> 00:00:17.450
+Here is the setup.
+
+00:00:17.840 --> 00:00:21.080
+The source domain is a simulated copy of our real robot cell.
+
+00:00:21.100 --> 00:00:25.110
+We train a visual policy there with domain randomization,
+
+00:00:25.220 --> 00:00:28.310
+and in simulation it threads the needle reliably.
+
+00:00:31.700 --> 00:00:34.930
+On the real robot, we deploy the same policy.
+
+00:00:35.340 --> 00:00:39.470
+The scene matches, but friction, contact and actuation do not,
+
+00:00:39.700 --> 00:00:41.540
+and in a contact-rich insertion task,
+
+00:00:41.560 --> 00:00:43.360
+those small differences are enough
+
+00:00:43.380 --> 00:00:45.120
+to make it fail much of the time.
+
+00:00:45.140 --> 00:00:47.880
+Our goal is to close this dynamics gap
+
+00:00:47.900 --> 00:00:51.630
+with only about fifty real-world episodes.
+
+00:00:58.260 --> 00:01:03.350
+Same task, same visuals — but the physics still differs.
+
+00:01:03.940 --> 00:01:06.290
+Our analysis points to three rules.
+
+00:01:06.420 --> 00:01:07.510
+Keep the value frozen.
+
+00:01:07.920 --> 00:01:09.770
+Fix the dynamics with an ensemble.
+
+00:01:10.160 --> 00:01:12.390
+And tether the proposal policy to the source.
+
+00:01:14.560 --> 00:01:16.470
+DomainADEPT works in three stages.
+
+00:01:17.060 --> 00:01:17.950
+First, in simulation,
+
+00:01:18.300 --> 00:01:21.730
+we collect diverse data from expert and sub-optimal policies,
+
+00:01:22.440 --> 00:01:26.300
+and distill an RL teacher into a latent world model: an encoder,
+
+00:01:26.320 --> 00:01:31.570
+an ensemble of dynamics heads, a value head, and a policy head.
+
+00:01:33.880 --> 00:01:37.030
+Second, before any online interaction,
+
+00:01:37.380 --> 00:01:39.360
+we fine-tune the policy head on twenty
+
+00:01:39.380 --> 00:01:42.190
+human demonstrations from the real robot.
+
+00:01:42.540 --> 00:01:44.440
+Fitting so few demonstrations makes
+
+00:01:44.460 --> 00:01:46.450
+the policy forget useful behavior,
+
+00:01:46.700 --> 00:01:50.090
+so we tether it to the source policy on source states.
+
+00:01:52.660 --> 00:01:55.010
+Third, on the real robot,
+
+00:01:55.180 --> 00:01:57.970
+the proposal policy suggests candidate actions,
+
+00:01:58.500 --> 00:02:00.520
+the dynamics ensemble rolls them out,
+
+00:02:00.540 --> 00:02:02.750
+and the frozen value scores them.
+
+00:02:02.960 --> 00:02:06.660
+Only the dynamics are fine-tuned on the new real transitions.
+
+00:02:06.680 --> 00:02:09.100
+After fifty real episodes,
+
+00:02:09.120 --> 00:02:12.400
+DomainADEPT reaches one hundred percent on Threading
+
+00:02:12.420 --> 00:02:15.230
+and ninety percent on Square,
+
+00:02:15.320 --> 00:02:18.290
+versus fifty and sixty-five percent for SimDist.

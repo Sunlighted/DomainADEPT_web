@@ -142,6 +142,24 @@
     render();
   }
 
+  // Teaser captions: rendered below the video so they never cover the slides.
+  const tv = document.querySelector(".teaser video"), cap = document.getElementById("teaser-cap"),
+        ccb = document.getElementById("cc-btn");
+  if (tv && tv.textTracks.length) {
+    const tr = tv.textTracks[0];
+    tr.mode = "hidden";
+    const show = () => {
+      const c = tr.activeCues && tr.activeCues[0];
+      cap.textContent = c ? c.text : "";
+    };
+    tr.addEventListener("cuechange", show);
+    ccb.addEventListener("click", () => {
+      const on = cap.classList.toggle("off") === false;
+      ccb.setAttribute("aria-pressed", String(on));
+      ccb.textContent = on ? "CC on" : "CC off";
+    });
+  }
+
   // Light / dark toggle. charts.js redraws itself when data-theme changes.
   const root = document.documentElement;
   document.getElementById("theme-toggle").addEventListener("click", () => {
