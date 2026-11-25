@@ -1,0 +1,146 @@
+window.SHIFT_DEMOS = {
+ "threading": {
+  "source": {
+   "success": 10,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success"
+   ]
+  },
+  "target": {
+   "success": 0,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "grasp failed",
+    "knocked tripod over",
+    "grasp failed",
+    "missed the ring",
+    "knocked tripod over",
+    "knocked tripod over",
+    "grasp failed",
+    "knocked tripod over",
+    "grasp failed",
+    "knocked tripod over"
+   ]
+  }
+ },
+ "coffee": {
+  "source": {
+   "success": 9,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "stuck on rim",
+    "success",
+    "success",
+    "success"
+   ]
+  },
+  "target": {
+   "success": 4,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "stuck on rim",
+    "stuck on rim",
+    "success",
+    "stuck on rim",
+    "success",
+    "success",
+    "stuck on rim",
+    "stuck on rim",
+    "success",
+    "dropped pod"
+   ]
+  }
+ },
+ "square": {
+  "source": {
+   "success": 10,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success"
+   ]
+  },
+  "target": {
+   "success": 1,
+   "n": 10,
+   "speed": 1,
+   "labels": [
+    "jammed on peg",
+    "grasp failed",
+    "grasp failed",
+    "grasp failed",
+    "jammed on peg",
+    "success",
+    "jammed on peg",
+    "jammed on peg",
+    "jammed on peg",
+    "grasp failed"
+   ]
+  }
+ },
+ "tpa": {
+  "source": {
+   "success": 9,
+   "n": 10,
+   "speed": 2,
+   "labels": [
+    "success",
+    "piece 2 insertion failed",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success",
+    "success"
+   ]
+  },
+  "target": {
+   "success": 3,
+   "n": 10,
+   "speed": 2,
+   "labels": [
+    "piece 2 grasp failed",
+    "piece 2 grasp failed",
+    "success",
+    "success",
+    "piece 2 grasp failed",
+    "piece 2 grasp failed",
+    "piece 2 grasp failed",
+    "piece 1 insertion failed",
+    "success",
+    "piece 2 grasp failed"
+   ]
+  }
+ }
+};

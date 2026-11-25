@@ -127,3 +127,23 @@ footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px
 @media (max-width: 600px) { .logo-uoft { height: 36px; } .logo-lg { height: 30px; } .logos { gap: 20px; } }
 .vid-note { font-size: 14.5px; color: var(--muted); margin: 26px 0 0; }
 .vid-note + .task-tabs { margin-top: 12px; }
+
+/* ---------- benchmark demos ---------- */
+.demo-bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 26px; }
+.demo-bar .task-tabs { margin: 0; }
+.demo-info { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 28px; align-items: center; margin: 18px 0 12px; }
+@media (max-width: 640px) { .demo-info { grid-template-columns: 1fr; } }
+.tally { display: flex; flex-direction: column; line-height: 1.1; min-width: 120px; }
+.tally #shift-count { font-size: 40px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tally #shift-count-lab { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.tally.good #shift-count { color: var(--green); }
+.tally.bad #shift-count { color: #c0392b; }
+.shift-desc { margin: 0 0 8px; font-size: 15px; }
+.modes { display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.mode { font-size: 13.5px; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--rule); color: var(--ink2); font-variant-numeric: tabular-nums; }
+.mode b { font-weight: 650; }
+.mode.ok { border-color: rgba(23,153,106,.35); color: #12704f; }
+.mode.fail { border-color: rgba(192,57,43,.35); color: #a03224; }
+.shift-video { width: 100%; background: #fff; }
+.task-tabs { flex-wrap: wrap; max-width: 100%; }
+@media (max-width: 600px) { .task-tabs button { padding: 6px 11px; font-size: 14px; } .tally #shift-count { font-size: 32px; } }

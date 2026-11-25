@@ -57,6 +57,34 @@
     <p>Cross-domain policy adaptation seeks to reuse source-domain knowledge under dynamics shifts with limited target-domain interaction. Model-based methods address this problem by adapting source-pretrained world models, but their apparent sample-efficiency advantage may partly arise from value transfer: model-based methods often retain source-trained value functions, while model-free baselines learn critics from scratch. When we give model-free baselines the same source-trained critic, they initially adapt faster than their Dyna-style counterparts. Further analysis shows that dynamics ensembles and prior-guided data collection jointly improve Dyna-style adaptation, allowing it to outperform the model-free baseline on average. Guided by these findings, we propose DomainADEPT, which improves model-based planning with a dynamics ensemble that increases model accuracy and with &ldquo;tethered&rdquo; fine-tuning of the proposal policy that limits policy drift during data collection. Across four contact-rich manipulation tasks and one locomotion task, DomainADEPT achieves the highest average final performance among the evaluated methods under matched target-domain interaction budgets, improving average success by 25 percentage points over the strongest baseline. In sim-to-real experiments on two manipulation tasks, DomainADEPT reaches 90&ndash;100% success after 50 real-world episodes, compared with 50&ndash;65% for SimDist.</p>
   </section>
 
+  <section id="benchmark">
+    <div class="prose">
+      <h2>The benchmark: same task, different physics</h2>
+      <p>Source and target share the task, the success check and the observations; only contact physics changes. To see what the shift does, we run the <strong>source expert</strong> (≈95&ndash;100% success in its own domain) from the same 10 initial states in both domains and label how each target episode fails.</p>
+    </div>
+    <div class="demo-bar">
+      <div class="task-tabs" role="tablist" aria-label="Simulated task" id="shift-tasks">
+        <button type="button" data-task="threading" aria-selected="true">Threading</button>
+        <button type="button" data-task="coffee" aria-selected="false">Coffee</button>
+        <button type="button" data-task="square" aria-selected="false">Square</button>
+        <button type="button" data-task="tpa" aria-selected="false">Three Piece Assembly</button>
+      </div>
+      <div class="task-tabs" role="tablist" aria-label="Domain" id="shift-domain">
+        <button type="button" data-domain="source" aria-selected="false">Source domain</button>
+        <button type="button" data-domain="target" aria-selected="true">Target domain</button>
+      </div>
+    </div>
+    <div class="demo-info">
+      <div class="tally"><span id="shift-count"></span><span id="shift-count-lab"></span></div>
+      <div>
+        <p class="shift-desc" id="shift-desc"></p>
+        <div class="modes" id="shift-modes"></div>
+      </div>
+    </div>
+    <video id="shift-video" class="shift-video" muted loop playsinline autoplay controls preload="metadata"></video>
+    <p class="vid-note" id="shift-note">Source expert, no adaptation. Episodes 1&ndash;10 use the same seeds in both domains; a label appears when an episode ends.</p>
+  </section>
+
   <section id="analysis">
     <div class="prose">
       <h2>Is it the world model, or the transferred value?</h2>
@@ -155,7 +183,7 @@
     </figure>
 
     <p class="vid-note">Each video shows the first 10 of the 20 evaluation trials, before and after adaptation; the caption keeps a running success count.</p>
-    <div class="task-tabs" role="tablist" aria-label="Task">
+    <div class="task-tabs" role="tablist" aria-label="Task" id="real-tabs">
       <button type="button" role="tab" data-task="threading" aria-selected="true">Threading</button>
       <button type="button" role="tab" data-task="square" aria-selected="false">Square</button>
     </div>
@@ -213,6 +241,7 @@
 <script src="assets/js/figures.js"></script>
 <script src="assets/js/charts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="assets/js/shift_demos.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>

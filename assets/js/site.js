@@ -85,7 +85,7 @@
   }
 
   // Real-robot videos: task switch, ours on the left, SimDist on the right.
-  const tabs = document.querySelectorAll(".task-tabs button");
+  const tabs = document.querySelectorAll("#real-tabs button");
   const vOurs = document.getElementById("v-ours"), vBase = document.getElementById("v-base");
   function show(task) {
     tabs.forEach((b) => b.setAttribute("aria-selected", String(b.dataset.task === task)));
@@ -100,6 +100,44 @@
   }
   tabs.forEach((b) => b.addEventListener("click", () => show(b.dataset.task)));
   show("threading");
+
+  // Benchmark demos: source expert in the source vs the target domain.
+  const SD = window.SHIFT_DEMOS;
+  const SHIFT_TEXT = {
+    threading: "Target: object friction ×0.5, needle mass ×3, gripper stiffness ×0.12, ring friction ×2, ring opening ×0.85.",
+    coffee: "Target: object friction ×0.2, pod mass ×8, gripper stiffness ×0.3, pod-holder friction ×5, lid hinge damping ×5.",
+    square: "Target: gripper stiffness ×0.3, peg friction ×2, peg size ×1.2 (less clearance).",
+    tpa: "Target: gripper stiffness ×0.25, base friction ×2, base hole ×0.96.",
+  };
+  if (SD) {
+    const st = { task: "threading", domain: "target" };
+    const vid = document.getElementById("shift-video");
+    const render = () => {
+      document.querySelectorAll("#shift-tasks button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.task === st.task)));
+      document.querySelectorAll("#shift-domain button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.domain === st.domain)));
+      const d = SD[st.task][st.domain];
+      const tally = document.querySelector(".tally");
+      document.getElementById("shift-count").textContent = `${d.success}/${d.n}`;
+      document.getElementById("shift-count-lab").textContent = `succeed in the ${st.domain} domain`;
+      tally.className = "tally " + (d.success / d.n >= 0.8 ? "good" : "bad");
+      document.getElementById("shift-desc").textContent = st.domain === "source"
+        ? "Source domain: nominal simulator physics." : SHIFT_TEXT[st.task];
+      const counts = {};
+      d.labels.forEach((l) => { counts[l] = (counts[l] || 0) + 1; });
+      const order = Object.keys(counts).sort((x, y) => (x === "success" ? -1 : y === "success" ? 1 : counts[y] - counts[x]));
+      document.getElementById("shift-modes").innerHTML = order.map((l) =>
+        `<span class="mode ${l === "success" ? "ok" : "fail"}">${l === "success" ? "Success" : l[0].toUpperCase() + l.slice(1)} <b>×${counts[l]}</b></span>`).join("");
+      vid.poster = `assets/videos/shift/${st.task}_${st.domain}.jpg`;
+      vid.src = `assets/videos/shift/${st.task}_${st.domain}.mp4`;
+      vid.load(); vid.play().catch(() => {});
+      document.getElementById("shift-note").textContent =
+        "Source expert, no adaptation. Episodes 1–10 use the same seeds in both domains; a label appears when an episode ends." +
+        (d.speed > 1 ? ` Played at ${d.speed}× speed.` : "");
+    };
+    document.querySelectorAll("#shift-tasks button").forEach((b) => b.addEventListener("click", () => { st.task = b.dataset.task; render(); }));
+    document.querySelectorAll("#shift-domain button").forEach((b) => b.addEventListener("click", () => { st.domain = b.dataset.domain; render(); }));
+    render();
+  }
 
   // BibTeX copy.
   const copy = document.getElementById("copy-bib");
