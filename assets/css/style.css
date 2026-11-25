@@ -207,3 +207,4 @@ footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px
 .theme-toggle .moon { display: none; }
 :root[data-theme="dark"] .theme-toggle .sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .moon { display: block; }
+.teaser-note { margin-top: 8px; text-align: center; }
