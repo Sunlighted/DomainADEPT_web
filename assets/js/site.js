@@ -73,6 +73,9 @@
   let eqT;
   window.addEventListener("resize", () => { clearTimeout(eqT); eqT = setTimeout(equalize, 200); });
   if (document.fonts) document.fonts.ready.then(equalize);
+  // Charts are rebuilt on a theme change, so redo the height matching afterwards.
+  new MutationObserver(() => setTimeout(equalize, 60))
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
   // Equation (falls back to the plain-text version if KaTeX did not load).
   const ens = document.getElementById("ens-eq");
@@ -138,6 +141,19 @@
     document.querySelectorAll("#shift-domain button").forEach((b) => b.addEventListener("click", () => { st.domain = b.dataset.domain; render(); }));
     render();
   }
+
+  // Light / dark toggle. charts.js redraws itself when data-theme changes.
+  const root = document.documentElement;
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+  });
+  if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    let saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (err) {}
+    if (!saved) root.setAttribute("data-theme", e.matches ? "dark" : "light");
+  });
 
   // BibTeX copy.
   const copy = document.getElementById("copy-bib");

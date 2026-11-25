@@ -1,8 +1,17 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Resolve the theme before first paint: saved choice, else the system setting.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 <title>DomainADEPT · Demystifying Cross-Domain Policy Adaptation with World Models</title>
 <meta name="description" content="DomainADEPT: Domain Adaptation with Dynamics Ensembles and Policy Tethering. Cross-domain policy adaptation with world models, in simulation and on a real robot.">
 <meta property="og:title" content="Demystifying Cross-Domain Policy Adaptation with World Models">
@@ -17,6 +26,11 @@
 </head>
 <body>
 
+<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch between light and dark mode" title="Light / dark">
+  <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+  <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z"/></svg>
+</button>
+
 <header class="wrap hero">
   <p class="wordmark"><span class="d">Domain</span><span class="a">ADEPT</span></p>
   <h1>Demystifying Cross-Domain Policy Adaptation with World Models</h1>
@@ -27,10 +41,12 @@
     <span>Igor Gilitschenski<sup>1</sup></span>
     <span>Nicholas Rhinehart<sup>1</sup></span>
   </div>
-  <div class="affil"><span><sup>1</sup>University of Toronto</span><span><sup>2</sup>LG Corporation</span></div>
+  <div class="affil"><span><sup>1</sup>University of Toronto</span><span><sup>2</sup>LG Electronics</span></div>
   <div class="logos">
-    <img src="assets/img/leaf_tisl_uoft.png" alt="LEAF Lab, Toronto Intelligent Systems Lab and University of Toronto" class="logo-uoft">
-    <img src="assets/img/lg.svg" alt="LG" class="logo-lg">
+    <img src="assets/img/leaf_tisl_uoft.png" alt="LEAF Lab, Toronto Intelligent Systems Lab and University of Toronto" class="logo-uoft logo-light">
+    <img src="assets/img/leaf_tisl_uoft_dark.png" alt="LEAF Lab, Toronto Intelligent Systems Lab and University of Toronto" class="logo-uoft logo-dark">
+    <img src="assets/img/lg_electronics.svg" alt="LG Electronics" class="logo-lg logo-light">
+    <img src="assets/img/lg_electronics_dark.svg" alt="LG Electronics" class="logo-lg logo-dark">
   </div>
   <div class="links">
     <!-- TODO: replace href="#" with the arXiv URL and drop the "todo" class -->

@@ -37,7 +37,7 @@
     light: { surface: "#ffffff", ink: "#0b0b0b", ink2: "#52514e", muted: "#898781",
              grid: "#e6e5df", axis: "#c3c2b7", tipBg: "#ffffff", tipBorder: "#e2e1da",
              band: 0.16, refLine: "#6B7280", red: "#c0392b" },
-    dark:  { surface: "#1a1a19", ink: "#f0efec", ink2: "#c3c2b7", muted: "#8f8d86",
+    dark:  { surface: "#141518", ink: "#f0efec", ink2: "#c3c2b7", muted: "#8f8d86",
              grid: "#2c2c2a", axis: "#4a4945", tipBg: "#242423", tipBorder: "#3a3a38",
              band: 0.22, refLine: "#8B93A3", red: "#E06A5C" },
   };
