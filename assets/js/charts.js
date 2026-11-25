@@ -489,7 +489,7 @@
     const rows = fig.rows.slice().reverse();
     const labels = rows.map((r) => r.label);
     const groupCol = { "(i) Formulation": "#487DB2", "(ii) State coverage": "#86B7DB", "(iii) Reference action": "#A582AE" };
-    const ch = makeChart(el, 40 * rows.length + 50);
+    const ch = makeChart(el, fig.height || 40 * rows.length + 50);
     ch.setOption({
       animationDuration: 500, textStyle: { fontFamily: FONT },
       grid: { left: 8, right: 70, top: 8, bottom: 34, containLabel: true },

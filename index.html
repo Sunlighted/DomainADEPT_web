@@ -123,15 +123,15 @@
       <figcaption>Target-domain success during adaptation. Shading is ±1 s.d. over 10 seeds; each point is an independent 100-episode evaluation. Click a legend entry to hide a method.</figcaption>
     </figure>
 
-    <h3 class="prose">Both components matter</h3>
-    <div class="cols two">
+    <h3>Both components matter</h3>
+    <div class="cols split">
       <figure class="fig">
-        <div class="fig-title">Ensemble and tether are complementary (Threading)</div>
+        <div class="fig-title">Ensemble and tether are complementary</div>
         <div data-fig="ablation"></div>
-        <figcaption>DomainADEPT = SimDist + dynamics ensemble + policy tethering.</figcaption>
+        <figcaption>Threading, 10 seeds. DomainADEPT = SimDist + dynamics ensemble + policy tethering.</figcaption>
       </figure>
       <figure class="fig">
-        <div class="fig-title">Tether the policy outputs toward the source policy, on all source states</div>
+        <div class="fig-title">Tether the outputs toward the source policy, on all source states</div>
         <div data-fig="tether_variants"></div>
         <figcaption>Threading, success after 50k transitions (mean ± 1 s.d.). The default regularizes toward the source policy on the full source dataset; variants change the formulation, the states, or the reference action.</figcaption>
       </figure>

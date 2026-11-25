@@ -11,14 +11,17 @@
   F.main_sim2sim.grid = { bottom: 44 };
 
   // Single-panel curves sit in a two-column row, so they keep a ~1.6:1 shape.
-  ["ceiling", "proposal_warmup", "ablation"].forEach((k) => {
-    F[k].height = 290;
-    F[k].panels[0].title = "";
-  });
+  ["ceiling", "proposal_warmup", "ablation"].forEach((k) => { F[k].panels[0].title = ""; });
+  // Side-by-side charts share a plot height so their axes line up.
+  F.mfmb_cumulative.height = 310;
+  F.ceiling.height = 310;
+  F.proposal_warmup.height = 280;
+  F.ablation.height = 340;
+  F.tether_variants.height = 340;
   F.ceiling.refLegend = true;
   F.ceiling.panels[0].refs.forEach((r) => { r.label = r.label + " (200k steps)"; });
 
-  F.real_robot.height = 250;
+  F.real_robot.height = 260;
   F.real_robot.refLegend = true;
 
   // "Attempts that did not help": four panels in one row, each with its own legend.
@@ -34,8 +37,8 @@
 
   // Shorter group labels so they do not collide in a one-third-width column.
   F.oracle_dynamics.categories = ["src only", "tgt only", "src + tgt"];
-  F.oracle_dynamics.height = 300;
-  F.value_adapt.height = 300;
+  F.oracle_dynamics.height = 280;
+  F.value_adapt.height = 280;
 
   F.shift_ladder.height = 300;
   delete F.shift_ladder.note;

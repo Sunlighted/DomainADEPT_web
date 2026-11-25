@@ -3,19 +3,19 @@
   --ink2: #4a4f59;
   --muted: #80858f;
   --rule: #e7e8eb;
-  --soft: #f5f6f8;
+  --soft: #ffffff;
   --blue: #2c3e8f;
   --green: #17996a;
   --link: #2c3e8f;
-  --wide: 1080px;
-  --prose: 760px;
+  --wide: 1040px;
+  --prose: 1040px;
 }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; background: #fff; }
 body {
   margin: 0; background: #fff; color: var(--ink);
   font-family: Inter, "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  font-size: 16.5px; line-height: 1.65;
+  font-size: 17px; line-height: 1.7;
 }
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -46,7 +46,7 @@ img, video { display: block; max-width: 100%; }
 .btn.todo { background: #fff; color: var(--muted); border: 1px dashed #c6c9cf; cursor: default; }
 
 .teaser { margin: 8px auto 0; }
-.teaser video { width: 100%; border-radius: 6px; background: #fff; border: 1px solid var(--rule); }
+.teaser video { width: 100%; background: #fff; }
 
 /* ---------- sections ---------- */
 section { padding: 52px 0 8px; }
@@ -59,16 +59,19 @@ p strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- figures ---------- */
 .fig { margin: 26px 0 0; }
-.fig figcaption { font-size: 14px; color: var(--muted); line-height: 1.55; margin-top: 8px; max-width: var(--prose); }
+.fig figcaption { font-size: 14px; color: var(--muted); line-height: 1.55; margin-top: 8px; }
 .fig figcaption b { color: var(--ink2); font-weight: 600; }
 .cols { display: grid; gap: 26px 40px; margin-top: 26px; }
 .cols.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .cols.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.cols > .fig { margin: 0; }
-.fig-title { font-size: 15px; font-weight: 600; color: var(--ink); margin: 0 0 6px; line-height: 1.4; }
+.cols > .fig { margin: 0; display: flex; flex-direction: column; }
+.cols > .fig > figcaption { margin-top: 10px; }
+.cols.split { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+@media (max-width: 760px) { .cols.split { grid-template-columns: 1fr; } }
+.fig-title { font-size: 15px; font-weight: 600; color: var(--ink); margin: 0 0 6px; line-height: 1.4; min-height: 2.8em; }
 @media (max-width: 900px) { .cols.three { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .cols.two { grid-template-columns: 1fr; } }
-.narrow { max-width: 860px; }
+.narrow { max-width: 880px; margin-left: auto; margin-right: auto; }
 
 /* ---------- method ---------- */
 .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 40px; margin-top: 22px; }
@@ -76,8 +79,9 @@ p strong { color: var(--ink); font-weight: 600; }
 .method-grid h3 { margin-top: 0; }
 .method-grid h3 .n { color: var(--green); margin-right: 6px; }
 .eq { font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; font-size: 16px; color: var(--ink);
-      background: var(--soft); border-radius: 6px; padding: 4px 12px; margin: 4px 0 12px; overflow-x: auto; overflow-y: hidden; }
-.eq .katex-display { margin: .6em 0; }
+      background: #fff; border-left: 3px solid var(--green); padding: 2px 14px; margin: 4px 0 12px; overflow-x: auto; overflow-y: hidden; }
+.eq .katex-display { margin: .6em 0; text-align: left; }
+.eq .katex-display > .katex { text-align: left; }
 .eq .katex { font-size: 1.02em; }
 
 /* ---------- real robot ---------- */
@@ -97,7 +101,7 @@ p strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- bibtex / footer ---------- */
 .bib { position: relative; }
-.bib pre { background: var(--soft); border-radius: 6px; padding: 16px 18px; font-size: 13px; line-height: 1.55; overflow-x: auto; margin: 0; color: var(--ink); }
+.bib pre { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; font-size: 13px; line-height: 1.55; overflow-x: auto; margin: 0; color: var(--ink); }
 .bib button { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 12.5px; border: 1px solid var(--rule); background: #fff; color: var(--ink2); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
 footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px 16px 40px; }
 
@@ -109,3 +113,4 @@ footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px
 .pc-root .pc-panel .pc-leg-item { font-size: 11.5px; padding: 3px 5px; }
 .pc-root .pc-panel .pc-note-line { text-align: left; padding-left: 5px; font-size: 11.5px; }
 @media (max-width: 600px) { .abstract p { text-align: left; } }
+.method-grid > div { min-width: 0; }
