@@ -125,3 +125,5 @@ footer { color: var(--muted); font-size: 13px; text-align: center; padding: 56px
 .logo-uoft { height: 50px; }
 .logo-lg { height: 40px; }
 @media (max-width: 600px) { .logo-uoft { height: 36px; } .logo-lg { height: 30px; } .logos { gap: 20px; } }
+.vid-note { font-size: 14.5px; color: var(--muted); margin: 26px 0 0; }
+.vid-note + .task-tabs { margin-top: 12px; }

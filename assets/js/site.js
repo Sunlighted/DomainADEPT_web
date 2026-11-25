@@ -45,6 +45,35 @@
 
   PaperCharts.mountAll();
 
+  // Side-by-side figures: stretch the shorter one's plot so both figures end at the same line.
+  function equalize() {
+    document.querySelectorAll("[data-equalize]").forEach((row) => {
+      const figs = [...row.querySelectorAll(":scope > .fig")];
+      const charts = figs.map((f) => { const el = f.querySelector("[data-fig]"); return el && el._pcCharts && el._pcCharts[0]; });
+      charts.forEach((ch) => {
+        if (!ch) return;
+        const dom = ch.getDom();
+        if (!dom.dataset.baseH) dom.dataset.baseH = parseFloat(dom.style.height);
+        dom.style.height = dom.dataset.baseH + "px";
+        ch.resize();
+      });
+      if (getComputedStyle(row).gridTemplateColumns.split(" ").length < 2) return; // stacked on narrow screens
+      const hs = figs.map((f) => f.getBoundingClientRect().height);
+      const tallest = Math.max(...hs);
+      figs.forEach((f, i) => {
+        const ch = charts[i], d = tallest - hs[i];
+        if (!ch || d < 2) return;
+        const dom = ch.getDom();
+        dom.style.height = (parseFloat(dom.dataset.baseH) + d) + "px";
+        ch.resize();
+      });
+    });
+  }
+  equalize();
+  let eqT;
+  window.addEventListener("resize", () => { clearTimeout(eqT); eqT = setTimeout(equalize, 200); });
+  if (document.fonts) document.fonts.ready.then(equalize);
+
   // Equation (falls back to the plain-text version if KaTeX did not load).
   const ens = document.getElementById("ens-eq");
   if (ens && window.katex) {

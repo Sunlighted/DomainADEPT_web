@@ -62,7 +62,7 @@
       <h2>Is it the world model, or the transferred value?</h2>
       <p>Latent model-based methods keep the source-trained value function while they adapt the dynamics, whereas model-free baselines usually train their critics from scratch. Once IBRL starts from the same source critic, it adapts faster than Dyna-IBRL. Dyna-IBRL only pulls ahead when it has <strong>both</strong> a dynamics ensemble and a margin that makes data collection prefer the prior policy.</p>
     </div>
-    <div class="cols wn">
+    <div class="cols wn" data-equalize>
       <figure class="fig">
         <div class="fig-title">Cumulative success within 50k target steps</div>
         <div data-fig="mfmb_cumulative"></div>
@@ -131,7 +131,7 @@
     </figure>
 
     <h3>Both components matter</h3>
-    <div class="cols nw">
+    <div class="cols nw" data-equalize>
       <figure class="fig">
         <div class="fig-title">Ensemble and tether are complementary</div>
         <div data-fig="ablation"></div>
@@ -154,6 +154,7 @@
       <div data-fig="real_robot"></div>
     </figure>
 
+    <p class="vid-note">Each video shows the first 10 of the 20 evaluation trials, before and after adaptation; the caption keeps a running success count.</p>
     <div class="task-tabs" role="tablist" aria-label="Task">
       <button type="button" role="tab" data-task="threading" aria-selected="true">Threading</button>
       <button type="button" role="tab" data-task="square" aria-selected="false">Square</button>
