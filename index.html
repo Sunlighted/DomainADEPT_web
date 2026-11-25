@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DomainADEPT · Demystifying Cross-Domain Policy Adaptation with World Models</title>
+<meta name="description" content="DomainADEPT: Domain Adaptation with Dynamics Ensembles and Policy Tethering. Cross-domain policy adaptation with world models, in simulation and on a real robot.">
+<meta property="og:title" content="Demystifying Cross-Domain Policy Adaptation with World Models">
+<meta property="og:description" content="DomainADEPT: Domain Adaptation with Dynamics Ensembles and Policy Tethering.">
+<meta property="og:image" content="assets/videos/method.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/charts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="wrap hero">
+  <p class="wordmark"><span class="d">Domain</span><span class="a">ADEPT</span></p>
+  <h1>Demystifying Cross-Domain Policy Adaptation with World Models</h1>
+  <div class="authors">
+    <span>Chenyang Cao<sup>1</sup></span>
+    <span>Yifan Ruan<sup>1</sup></span>
+    <span>Ali Pesaranghader<sup>2</sup></span>
+    <span>Igor Gilitschenski<sup>1</sup></span>
+    <span>Nicholas Rhinehart<sup>1</sup></span>
+  </div>
+  <div class="affil"><span><sup>1</sup>University of Toronto</span><span><sup>2</sup>LG Corporation</span></div>
+  <div class="links">
+    <!-- TODO: replace href="#" with the arXiv URL and drop the "todo" class -->
+    <a class="btn todo" href="#" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 12h8v2H8zm0 4h8v2H8z"/></svg>
+      arXiv (coming soon)
+    </a>
+    <!-- TODO: replace href="#" with the code repository URL and drop the "todo" class -->
+    <a class="btn todo" href="#" aria-disabled="true">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      Code (coming soon)
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="teaser">
+    <video src="assets/videos/method.mp4" poster="assets/videos/method.jpg" controls autoplay muted loop playsinline preload="metadata"></video>
+  </div>
+
+  <section class="abstract prose" id="abstract">
+    <h2>Abstract</h2>
+    <p>Cross-domain policy adaptation seeks to reuse source-domain knowledge under dynamics shifts with limited target-domain interaction. Model-based methods address this problem by adapting source-pretrained world models, but their apparent sample-efficiency advantage may partly arise from value transfer: model-based methods often retain source-trained value functions, while model-free baselines learn critics from scratch. When we give model-free baselines the same source-trained critic, they initially adapt faster than their Dyna-style counterparts. Further analysis shows that dynamics ensembles and prior-guided data collection jointly improve Dyna-style adaptation, allowing it to outperform the model-free baseline on average. Guided by these findings, we propose DomainADEPT, which improves model-based planning with a dynamics ensemble that increases model accuracy and with &ldquo;tethered&rdquo; fine-tuning of the proposal policy that limits policy drift during data collection. Across four contact-rich manipulation tasks and one locomotion task, DomainADEPT achieves the highest average final performance among the evaluated methods under matched target-domain interaction budgets, improving average success by 25 percentage points over the strongest baseline. In sim-to-real experiments on two manipulation tasks, DomainADEPT reaches 90&ndash;100% success after 50 real-world episodes, compared with 50&ndash;65% for SimDist.</p>
+  </section>
+
+  <section id="analysis">
+    <div class="prose">
+      <h2>Is it the world model, or the transferred value?</h2>
+      <p>Latent model-based methods keep the source-trained value function while they adapt the dynamics, whereas model-free baselines usually train their critics from scratch. Once IBRL starts from the same source critic, it adapts faster than Dyna-IBRL. Dyna-IBRL only pulls ahead when it has <strong>both</strong> a dynamics ensemble and a margin that makes data collection prefer the prior policy.</p>
+    </div>
+    <div class="cols two">
+      <figure class="fig">
+        <div class="fig-title">Cumulative success within 50k target steps</div>
+        <div data-fig="mfmb_cumulative"></div>
+        <figcaption>Success summed over the six evaluations from 0 to 50k, averaged over Threading, Coffee, Square and TPA. Q<sub>src</sub> = transferred source critic; margin = value threshold the IBRL actor must exceed; dyn. ens. = dynamics ensemble.</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="fig-title">Margin + dynamics ensemble let Dyna-style adaptation pass its model-free counterpart</div>
+        <div data-fig="ceiling"></div>
+        <figcaption>Mean over Threading, Coffee and Square, 10 seeds each. Dashed lines mark the ceilings that SimDist and Dyna-IBRL reach at 200k steps.</figcaption>
+      </figure>
+    </div>
+
+    <div class="prose">
+      <h3>What limits planning?</h3>
+      <p>Planning with the world model adapts quickly at first and then plateaus. We look at the value, the dynamics and the proposal policy one at a time. With the target simulator as an oracle model, the frozen source value already plans well, so <strong>dynamics error sets the ceiling</strong>. Every value-update schedule we tried hurts. Fine-tuning the proposal on target demonstrations helps, and tethering it to the source policy helps more.</p>
+    </div>
+    <div class="cols three">
+      <figure class="fig">
+        <div class="fig-title">Oracle dynamics is enough, with the source value frozen</div>
+        <div data-fig="oracle_dynamics"></div>
+        <figcaption>Groups are the proposal policy: trained on source data, on the 20 target demos, or source then target. Bars: mean over Square, Coffee, Threading and TPA; dots: individual tasks.</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="fig-title">Adapting the value collapses the planner</div>
+        <div data-fig="value_adapt"></div>
+        <figcaption>Success after adaptation under each value-update schedule.</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="fig-title">Tethering the proposal to the source policy helps</div>
+        <div data-fig="proposal_warmup"></div>
+        <figcaption>Mean over Threading, Coffee and Square.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="prose">
+      <h2>DomainADEPT</h2>
+      <p><strong>Domain</strong> <strong>A</strong>daptation with <strong>D</strong>ynamics <strong>E</strong>nsembles and <strong>P</strong>olicy <strong>T</strong>ethering. Like SimDist, we transfer a source-pretrained latent world model and plan with MPPI, keeping the value head frozen during adaptation. DomainADEPT changes two things.</p>
+      <div class="method-grid">
+        <div>
+          <h3><span class="n">1</span>Plan-time dynamics ensemble</h3>
+          <p>K dynamics heads are pretrained in the source domain from independent initializations and bootstrapped data, then fine-tuned on target transitions. The planner rolls out the <em>mean</em> prediction of the heads instead of any single head, which reduces model error.</p>
+        </div>
+        <div>
+          <h3><span class="n">2</span>Tethered proposal fine-tuning</h3>
+          <p>The proposal policy clones the target demonstrations while being penalized for drifting from the source policy on source states:</p>
+          <div class="eq" id="tether-eq">L(&eta;) = E<sub>𝒟<sub>t</sub></sub>&#8214;&pi;<sub>&eta;</sub>(s) &minus; a&#8214;<sup>2</sup> + &lambda; E<sub>𝒟<sub>s</sub></sub> D(&pi;<sub>&eta;</sub> &#8214; &pi;<sub>s</sub>)</div>
+          <p>This keeps the planner searching where the frozen dynamics and value heads are reliable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="prose">
+      <h2>Cross-domain adaptation in simulation</h2>
+      <p>Four contact-rich MimicGen manipulation tasks and one locomotion task, each with a dynamics shift between source and target. All methods get 20 target demonstrations and the same target interaction budget. DomainADEPT adapts fastest and reaches about 70% average success, 25 points above the strongest baseline.</p>
+    </div>
+    <figure class="fig">
+      <div data-fig="main_sim2sim"></div>
+      <figcaption>Target-domain success during adaptation. Shading is ±1 s.d. over 10 seeds; each point is an independent 100-episode evaluation. Click a legend entry to hide a method.</figcaption>
+    </figure>
+
+    <h3 class="prose">Both components matter</h3>
+    <div class="cols two">
+      <figure class="fig">
+        <div class="fig-title">Ensemble and tether are complementary (Threading)</div>
+        <div data-fig="ablation"></div>
+        <figcaption>DomainADEPT = SimDist + dynamics ensemble + policy tethering.</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="fig-title">Tether the policy outputs toward the source policy, on all source states</div>
+        <div data-fig="tether_variants"></div>
+        <figcaption>Threading, success after 50k transitions (mean ± 1 s.d.). The default regularizes toward the source policy on the full source dataset; variants change the formulation, the states, or the reference action.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="real">
+    <div class="prose">
+      <h2>Sim-to-real</h2>
+      <p>The source domain is a MuJoCo replica of the real cell; the target is a Franka Research 3 with a Robotiq 2F-85 gripper, observed through a global and a wrist camera. Each adaptation round adds 10 real episodes and is evaluated over 20 trials. After 50 real episodes DomainADEPT succeeds in <strong>20/20</strong> trials on Threading and <strong>18/20</strong> on Square, while SimDist reaches 10/20 and 13/20.</p>
+    </div>
+    <figure class="fig narrow">
+      <div data-fig="real_robot"></div>
+    </figure>
+
+    <div class="task-tabs" role="tablist" aria-label="Task">
+      <button type="button" role="tab" data-task="threading" aria-selected="true">Threading</button>
+      <button type="button" role="tab" data-task="square" aria-selected="false">Square</button>
+    </div>
+    <div class="vs">
+      <div class="ours">
+        <div class="lab"><b>DomainADEPT (ours)</b><span data-score data-threading="20/20 after 50 episodes" data-square="18/20 after 50 episodes"></span></div>
+        <video id="v-ours" muted loop playsinline controls preload="metadata"></video>
+      </div>
+      <div>
+        <div class="lab"><b>SimDist</b><span data-score data-threading="10/20 after 50 episodes" data-square="13/20 after 50 episodes"></span></div>
+        <video id="v-base" muted loop playsinline controls preload="metadata"></video>
+      </div>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="prose">
+      <h2>More experiments</h2>
+      <h3>Attempts that did not help</h3>
+      <p>Better value estimates, stronger proposals, a source-pretrained encoder for IBRL, and other adaptation strategies all fall short of DomainADEPT. Dashed curves in the second panel are the proposal policy alone, without planning.</p>
+    </div>
+    <figure class="fig">
+      <div data-fig="failed_row"></div>
+      <figcaption>VEns = pessimistic value ensemble, VCalib = value calibration, VAML = value-aware model learning. DARC is built on IBRL, with &eta; the weight of its reward correction. All panels are Threading; shading is ±1 s.d. across seeds.</figcaption>
+    </figure>
+
+    <div class="prose"><h3>Larger dynamics shifts</h3>
+      <p>On Threading we make the shift progressively larger. DomainADEPT stays ahead at every level.</p>
+    </div>
+    <figure class="fig">
+      <div data-fig="shift_ladder"></div>
+      <figcaption>Success after 50k target transitions (10 seeds). Oracle MPPI plans with the target simulator and the frozen source value. IBRL uses the source critic and the margin.</figcaption>
+    </figure>
+  </section>
+
+  <section id="bibtex" class="prose">
+    <h2>BibTeX</h2>
+    <div class="bib">
+      <button type="button" id="copy-bib">Copy</button>
+<pre id="bibtex">@article{cao2026domainadept,
+  title   = {Demystifying Cross-Domain Policy Adaptation with World Models},
+  author  = {Cao, Chenyang and Ruan, Yifan and Pesaranghader, Ali and
+             Gilitschenski, Igor and Rhinehart, Nicholas},
+  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  year    = {2026}
+}</pre>
+    </div>
+  </section>
+
+</main>
+
+<footer>Interactive figures use the same numbers as the paper. Hover for values; click a legend entry to toggle a method.</footer>
+
+<script src="assets/js/echarts.min.js"></script>
+<script src="assets/js/figures.js"></script>
+<script src="assets/js/charts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

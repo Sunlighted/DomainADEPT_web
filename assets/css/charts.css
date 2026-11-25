@@ -1,0 +1,52 @@
+/* Styles for PaperCharts (charts.js). Scoped to .pc-root so the project site's
+ * own CSS is untouched. Theme follows prefers-color-scheme, overridable with
+ * <html data-theme="light|dark">. */
+.pc-root {
+  --pc-ink: #0b0b0b; --pc-ink2: #52514e; --pc-muted: #898781;
+  --pc-chip: #f3f2ee; --pc-chip-border: #e4e3dc; --pc-chip-off: .38;
+  font-family: Inter, "Helvetica Neue", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  color: var(--pc-ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .pc-root {
+    --pc-ink: #f0efec; --pc-ink2: #c3c2b7; --pc-muted: #8f8d86;
+    --pc-chip: #242423; --pc-chip-border: #353533;
+  }
+}
+:root[data-theme="dark"] .pc-root {
+  --pc-ink: #f0efec; --pc-ink2: #c3c2b7; --pc-muted: #8f8d86;
+  --pc-chip: #242423; --pc-chip-border: #353533;
+}
+
+.pc-panels { display: grid; gap: 8px 18px; grid-template-columns: 1fr; }
+.pc-panels.pc-n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pc-panels.pc-n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pc-panels.pc-n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pc-panels.pc-n5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 860px) {
+  .pc-panels.pc-n5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pc-panels.pc-n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .pc-panels.pc-n2, .pc-panels.pc-n3, .pc-panels.pc-n4, .pc-panels.pc-n5 { grid-template-columns: 1fr; }
+}
+.pc-panel { min-width: 0; }
+.pc-panel-title { font-size: 13.5px; font-weight: 600; text-align: center; margin: 2px 0 -2px; color: var(--pc-ink); }
+
+.pc-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; margin-top: 10px; }
+.pc-leg-item {
+  display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 12.5px; line-height: 1;
+  color: var(--pc-ink); background: var(--pc-chip); border: 1px solid var(--pc-chip-border);
+  border-radius: 999px; padding: 6px 10px; cursor: pointer; transition: opacity .15s, border-color .15s;
+}
+.pc-static .pc-leg-item, .pc-leg-item.pc-note { cursor: default; }
+.pc-leg-item.pc-note { background: transparent; border-color: transparent; color: var(--pc-muted); }
+button.pc-leg-item:hover { border-color: var(--pc-muted); }
+button.pc-leg-item:focus-visible { outline: 2px solid #2a78d6; outline-offset: 2px; }
+.pc-leg-item.pc-off { opacity: var(--pc-chip-off); }
+.pc-leg-item.pc-off span:last-child { text-decoration: line-through; }
+.pc-leg-item.pc-ours { font-weight: 600; }
+.pc-sw { position: relative; display: inline-block; width: 22px; height: 10px; flex: none; }
+.pc-sw-line { position: absolute; left: 0; right: 0; top: 4px; }
+.pc-sw-dot { position: absolute; left: 6px; top: 0; width: 10px; height: 10px; }
+.pc-note-line { font-size: 12px; color: var(--pc-muted); text-align: center; margin-top: 8px; }
