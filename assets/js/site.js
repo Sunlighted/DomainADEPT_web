@@ -13,11 +13,11 @@
   // Single-panel curves sit in a two-column row, so they keep a ~1.6:1 shape.
   ["ceiling", "proposal_warmup", "ablation"].forEach((k) => { F[k].panels[0].title = ""; });
   // Side-by-side charts share a plot height so their axes line up.
-  F.mfmb_cumulative.height = 310;
-  F.ceiling.height = 310;
+  F.mfmb_cumulative.height = 290;
+  F.ceiling.height = 290;
   F.proposal_warmup.height = 280;
-  F.ablation.height = 340;
-  F.tether_variants.height = 340;
+  F.ablation.height = 300;
+  F.tether_variants.height = 300;
   F.ceiling.refLegend = true;
   F.ceiling.panels[0].refs.forEach((r) => { r.label = r.label + " (200k steps)"; });
 
@@ -46,6 +46,10 @@
   PaperCharts.mountAll();
 
   // Equation (falls back to the plain-text version if KaTeX did not load).
+  const ens = document.getElementById("ens-eq");
+  if (ens && window.katex) {
+    katex.render(String.raw`\bar p_\theta(z,a)=\frac{1}{K}\sum_{i=1}^{K}\hat p_\theta^{\,i}(z,a)`, ens, { displayMode: true, throwOnError: false });
+  }
   const eq = document.getElementById("tether-eq");
   if (eq && window.katex) {
     katex.render(String.raw`\mathcal{L}(\eta)=\mathbb{E}_{(s,a)\sim\mathcal{D}_t}\big\lVert\pi_\eta(s)-a\big\rVert_2^2+\lambda\,\mathbb{E}_{s\sim\mathcal{D}_s}\big[D(\pi_\eta\,\Vert\,\pi_s)\big]`, eq, { displayMode: true, throwOnError: false });
